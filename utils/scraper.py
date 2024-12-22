@@ -36,7 +36,32 @@ def scrape(url, prefix):
 
     # find username elements
     items = page.find_all("div", {"class": "assignment-repo-list-item"})
-    for element in items:
+
+    while True:
+        WebDriverWait(driver, 100).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'assignment-repo-list-item'))
+        )
+
+        html = driver.page_source
+        page = BeautifulSoup(html, "html.parser")
+
+        # find username elements
+        items += page.find_all("div", {"class": "assignment-repo-list-item"})
+
+        # Check for next page button
+        try:
+            next_button = driver.find_element(By.CSS_SELECTOR, 'a[rel="next"]')
+            if not next_button.is_displayed():
+                break
+            next_button.click()
+            # Wait for page to load
+            WebDriverWait(driver, 10).until(
+                lambda driver: driver.find_element(By.CSS_SELECTOR, 'a[rel="next"]') != next_button
+            )
+        except:
+            break  # No more pages
+
+    for element in items[::-1]:
         # extract username
         username = element.find("img")['alt'].replace('@', '')
 
@@ -59,17 +84,60 @@ def scrape(url, prefix):
         files = repo_page.find("table").find_all(
             "td", {"class": "react-directory-row-name-cell-large-screen"}
         )
+        def process_directory(base_url, current_path=""):
+            if base_url.endswith(".git"):
+                base_url = base_url.split(".git")[0]
+            if current_path != "":
+                current_path = "/tree/main/" + current_path
+            print(base_url, current_path)
+            driver.get(base_url + current_path)
+            html = driver.page_source
+            page_content = BeautifulSoup(html, "html.parser")
+            
+            sub_files = page_content.find("table").find_all(
+                "td", {"class": "react-directory-row-name-cell-large-screen"}
+            )
+            
+            for file in sub_files:
+                link = file.find("a", {"class": "Link--primary"})
+                if not link:
+                    continue
 
-        for file in files:
-            # extract file name
-            file_name = file.get_text()
-            extension = pathlib.Path(file_name).suffix
+                file_name = file.get_text().strip()
+                if file_name in ['.', '..']:
+                    continue
+                    
+                # Check if it's a directory
+                is_directory = file.find("svg", {"class": "icon-directory"}) is not None
 
-            # select only .ipynb and .py file
-            if extension == '.ipynb' or extension == '.py':
-                # store file path
-                data["paths"].append(f"{username}/{file_name}")
-                data["fileNames"].append(file_name)
+                # Get the href attribute to construct the full path
+                href = link.get('href')
+                if href:
+                    # Extract the path from the href (remove the domain and repo parts)
+                    path_parts = href.split('/tree/main/')
+                    if len(path_parts) > 1:
+                        full_path = path_parts[1]
+                    else:
+                        path_parts = href.split('/blob/main/')
+                        if len(path_parts) > 1:
+                            full_path = path_parts[1]
+                        else:
+                            continue
+                
+                if is_directory:
+                    # Recursively process subdirectory
+                    process_directory(base_url, full_path)
+                else:
+                    extension = pathlib.Path(file_name).suffix
+                    if extension in ['.ipynb', '.py'] and not file_name.startswith("test"):
+                        data["paths"].append(f"{username}/{full_path}")
+                        data["fileNames"].append(username + "_" + full_path.replace("/", "_"))
+                    print(data)
+            
+
+        # Start processing from root directory
+        process_directory(url)
+
 
     # close driver
     driver.quit()

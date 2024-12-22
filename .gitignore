@@ -3,3 +3,8 @@
 __pycache__
 moss.pl
 .env
+<<<<<<< HEAD
+=======
+moss/
+clone/
+>>>>>>> master
