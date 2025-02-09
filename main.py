@@ -5,6 +5,7 @@ if __name__ == "__main__":
     prefix = input("Assignment Repository Prefix Url: ")
 
     data = scrape(url, prefix)
+    print(data)
 
     while True:
         print("Select file format:")

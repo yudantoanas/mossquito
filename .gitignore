@@ -3,3 +3,5 @@
 __pycache__
 moss.pl
 .env
+moss/
+clone/
