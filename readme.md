@@ -1,4 +1,4 @@
-# MossPyt
+# Mossquito
 
 A productivity tool that can do plagiarism check using Moss for all python assignment in github classroom.
 
