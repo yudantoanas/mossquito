@@ -1,6 +1,6 @@
-# MossPyt
+# Mossquito
 
-A productivity tool that can do plagiarism check using Moss for all python assignment in github classroom.
+Mossquito is an app that "sucks" the code in multiple repositories using MOSS (Measure of Software Similarity) from Stanford that detects plagiarism and ensures code originality with automated scanning and detailed similarity reports.
 
 ## Setup
 
