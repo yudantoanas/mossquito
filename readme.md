@@ -1,6 +1,6 @@
 # Mossquito
 
-Mossquito is an app that "sucks" the code in multiple repositories using MOSS (Measure of Software Similarity) from Stanford that detects plagiarism and ensures code originality with automated scanning and detailed similarity reports.
+Mossquito is an app that "sucks" the code in multiple repositories and checks for plagiarism and ensures code originality with automated scanning and detailed similarity reports using MOSS (Measure of Software Similarity) from Stanford.
 
 ## Setup
 
@@ -40,7 +40,7 @@ Mossquito is an app that "sucks" the code in multiple repositories using MOSS (M
   ```
 
 - Demo:
-![alt text](demo.gif)
+  ![alt text](demo.gif)
 
 ## Reference
 
