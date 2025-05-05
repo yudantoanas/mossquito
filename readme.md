@@ -1,6 +1,6 @@
 # Mossquito
 
-Mossquito is an app that uses [MOSS](https://theory.stanford.edu/~aiken/moss/) to detects plagiarism and ensures code originality with automated scanning and detailed similarity reports.
+Mossquito is an app that uses [MOSS](https://theory.stanford.edu/~aiken/moss/) to detect plagiarism and ensures code originality with automated scanning and detailed similarity reports.
 
 ## Setup
 
