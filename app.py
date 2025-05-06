@@ -2,13 +2,11 @@ import os
 import pathlib
 import shutil
 import sys
-
 import nbformat
-
 
 def readFile(folder_path):
     if not os.path.exists(folder_path):
-        print(f"Folder '{folder_path}' tidak ditemukan.")
+        print(f"Directory '{folder_path}' was not found.")
         return
 
     for root, _, files in os.walk(folder_path):
@@ -16,7 +14,7 @@ def readFile(folder_path):
             if filename.endswith(".py"):
                 filePath = os.path.join(root, filename)
                 print(filePath)
-                print(f"Membaca file: {filename}\n" + "-" * 40)
+                print(f"Read file: {filename}\n" + "-" * 40)
 
                 shutil.copyfile(filePath, "./moss/"+filename)
                 continue
@@ -24,7 +22,7 @@ def readFile(folder_path):
             if filename.endswith(".ipynb"):
                 filePath = os.path.join(root, filename)
                 print(filePath)
-                print(f"Membaca file: {filename}\n" + "-" * 40)
+                print(f"Read file: {filename}\n" + "-" * 40)
 
                 try:
                     # read notebook file
@@ -36,13 +34,11 @@ def readFile(folder_path):
                 # extract code from cell
                 user_code = ''
                 for cell in nb.cells:
-                    # only reads cell with type 'code'
                     if cell.cell_type == 'code':
-                        # append code strings
+                        # append code from code cell
                         user_code += cell.source + '\n\n'
-
-                    if cell.cell_type == 'markdown':
-                        # append code strings
+                    elif cell.cell_type == 'markdown':
+                        # append markdown from markdown cell as comments
                         user_code += "'''" + cell.source + "'''\n\n"
 
                 # generate output file
