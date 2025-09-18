@@ -1,10 +1,8 @@
 #!/bin/sh
-rm -rf moss
-
-mkdir moss
+rm -rf $1/extracted
 
 # run main script
-python app.py $1
+python main.py $1
 
 # run MOSS script
-./moss.pl -l python -c "MOSS Results" ./moss/*.py
+./moss.pl -l python -c "MOSS Results" $1/extracted/*.py

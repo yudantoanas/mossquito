@@ -1,46 +1,27 @@
 # Mossquito
 
-Mossquito is an app that uses [MOSS](https://theory.stanford.edu/~aiken/moss/) to detect plagiarism and ensures code originality with automated scanning and detailed similarity reports.
+Mossquito is a notebook preprocessor that extracts notebook contents and convert it into python script. This app is used by instructors of Hacktiv8 Indonesia's Data Science bootcamp program to extract and convert student assigments, that are mostly in notebook formats, into python scripts. This app also uses MOSS for plagiarism checking.
 
-## Setup
+> Mossquito is inspired by **Park Ye-Joo**'s article about "_Run MOSS Plagiarism Checker on Jupyter Notebooks_" in his personal blog.
 
-- Moss account
+## Requirements
 
-  - Register Moss account ([here](https://theory.stanford.edu/~aiken/moss/))
+- MOSS access
+  - You can obtain MOSS access ([here](https://theory.stanford.edu/~aiken/moss/))
 
-    - To obtain a Moss account, send a mail message (without subject) to <moss@moss.stanford.edu>. The body of the message should appear like the format below:
+## Use Case
 
-      ```text
-      registeruser
-      mail username@domain <-- change this to your existing email
-      ```
+### Use Case 1 - Only extract and convert notebook to scripts
 
-    - After receive reply from MOSS, proceed to copy the script from the email and save it as `moss.pl` to this directory.
-    - Set permission on `moss.pl` using `chmod ug+x <file>`
+```shell
+python main.py <your_assigment_directory>
+```
 
-      ```bash
-      chmod ug+x moss.pl
-      ```
+### Use Case 2 - Running full pipeline (extract ➡️ convert ➡️ moss checking)
 
-- Install GitHub CLI [here](https://github.com/cli/cli#installation)
-
-## Usage
-
-- Download all assignment from Classroom
-  ![alt text](image.png)
-
-  ```cmd
-  gh classroom clone student-repos -a <assignment_id>
-  ```
-
-- Execute the `run.sh` file in the terminal:
-
-  ```cmd
-  ./run.sh /your/cloned/directory
-  ```
-
-- Demo:
-  ![alt text](demo.gif)
+```shell
+./run.sh <your_assignment_directory>
+```
 
 ## Reference
 
